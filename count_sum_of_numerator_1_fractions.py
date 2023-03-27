@@ -43,7 +43,7 @@ def count_fractions(q, p, m, prev_r, memo):
     return count, memo
 
 if __name__=='__main__':
-    n = 7
+    n = 6
     memo = dict()
     c, _ = count_fractions(1,1,n,1,memo)
     print(c)
