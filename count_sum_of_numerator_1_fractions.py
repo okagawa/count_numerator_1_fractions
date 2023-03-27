@@ -21,7 +21,7 @@ def count_fractions(q, p, m, prev_r, memo):
     
     # q/pを超えない1/rを満足するrの最小値を求める
     r_min = max(math.ceil(p/q), prev_r)
-    r_max = math.floor(2*p*(m-1)/q)
+    r_max = math.floor(p*m/q)
 
     # q/pから1/rを引いた残りが1/r*(m-1)より大きいと、rが大きすぎるのでNG
     # 1/r*(m-1) >= q/p - 1/r
@@ -43,7 +43,7 @@ def count_fractions(q, p, m, prev_r, memo):
     return count, memo
 
 if __name__=='__main__':
-    n = 6
+    n = 7
     memo = dict()
     c, _ = count_fractions(1,1,n,1,memo)
     print(c)

@@ -10,7 +10,7 @@ let rec count_fractions (q:int) (p:int) (m:int) (prev_r:int) =
     | 1 -> if q = 1 then 1 else 0
     | _ ->
         let r_min = Math.Max(int(Math.Ceiling(float(p)/float(q))), prev_r)
-        let r_max = int(Math.Floor(2.*float(p)*(float(m)-1.)/float(q)))
+        let r_max = int(Math.Floor(float(p*m)/float(q)))
 
         let (r:int) = r_max
         let rec cf_loop r count =

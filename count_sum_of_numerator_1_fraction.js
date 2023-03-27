@@ -38,8 +38,8 @@ function count_fractions(q, p, m, prev_r) {
             return 0;
         }
     }
-    var r = Math.max(Math.ceil(p/q,), prev_r);
-    while (2*p*(m-1)>=q*r){
+    var r = Math.max(Math.ceil(p/q), prev_r);
+    while (p*m >= q*r){
         var next_q = q*r-p;
         var next_p = p*r;
         if (next_q > 0) {

@@ -23,7 +23,7 @@ class CountNumerator1Fractions {
             }
         } else {
             var r_min = (int)Math.Max( Math.Ceiling(p*1.0/q), prev_r);
-            var r_max = (int)Math.Floor( 2.0*p*(m-1)/q );
+            var r_max = (int)Math.Floor( p*m*1.0/q );
             var r = r_max;
             while ( r >= r_min ) {
                 var next_q = q * r - p;
@@ -41,7 +41,7 @@ class CountNumerator1Fractions {
     }
 
     static void Main(string[] args) {
-        var n = 7;
+        var n = 6;
         var c = CountFractions(1, 1, n, 1);
         Console.WriteLine(c);
     }
