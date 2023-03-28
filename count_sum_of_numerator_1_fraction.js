@@ -1,5 +1,5 @@
 // 分子が1の分数をn個合計して1になる組み合わせの数を数える。
-var n_max=7;
+var n_max=6;
 
 for (var n = 2; n <= n_max; n++) {
     var objDate0 = new Date();
