@@ -16,7 +16,6 @@ for (var n = 2; n <= n_max; n++) {
 
 }
 
-// q/pをm個の分数で合計する組み合わせの数を数える関数
 function euclidean(m,n) {
     if ( n > m ) {
         t = m;
@@ -30,6 +29,7 @@ function euclidean(m,n) {
     }
 }
 
+// q/pをm個の分数で合計する組み合わせの数を数える関数
 function count_fractions(q, p, m, prev_r) {
     var count = 0;
     if (m == 1) {
