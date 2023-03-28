@@ -1,3 +1,4 @@
+// 分子が1の分数をn個合計して1になる組み合わせの数を数える。
 var n_max=7;
 
 for (var n = 2; n <= n_max; n++) {
@@ -15,7 +16,7 @@ for (var n = 2; n <= n_max; n++) {
 
 }
 
-
+// q/pをm個の分数で合計する組み合わせの数を数える関数
 function euclidean(m,n) {
     if ( n > m ) {
         t = m;
@@ -38,8 +39,14 @@ function count_fractions(q, p, m, prev_r) {
             return 0;
         }
     }
-    var r = Math.max(Math.ceil(p/q), prev_r);
-    while (p*m >= q*r){
+
+    // q/pを超えない1/rを満足するrの最小値を求める。ただし直前のr以上の値である必要がある
+    var r_min = Math.max(Math.ceil(p/q), prev_r);
+    // q/p = m/rを満足するrがrの最大値(1/r*mがq/p未満だと1/rの和の形で表せない)
+    var r_max = Math.floor(p*m/q)
+    
+    var r = r_min
+    while ( r <= r_max ){
         var next_q = q*r-p;
         var next_p = p*r;
         if (next_q > 0) {
