@@ -43,26 +43,34 @@ function count_fractions(q, p, m, prev_r) {
     var r_min = Math.max(Math.ceil(p/q), prev_r);
     // q/p = m/rを満足するrがrの最大値(1/r*mがq/p未満だと1/rの和の形で表せない)
     var r_max = Math.floor(p*m/q)
-    
-    var r = r_min
-    while ( r <= r_max ){
-        var next_q = q*r-p;
-        if (next_q > 0) {
-            var next_p = p*r;
-            // m=2(残り2個)の場合は、q/p-1/r=(q*r-p)/(p*r)の分母が分子で割り切れるかどうか
-            // 判定すればよい。
-            if (m == 2) {
-                if ( next_p % next_q == 0 ){
-                    count = count + 1;
-                }
-            } else {
-                var e = euclidean(next_q, next_p);
-                next_q = parseInt(next_q/e);
-                next_p = parseInt(next_p/e);
-                count = count + count_fractions(next_q, next_p, m-1, r);
+
+    // m=2(残り2個)かつ、q/p=1/r_minの場合は特別ケース。
+    // 1/r_min - 1/r の分母が分子で割り切れるかどうかで判別すればよい。
+    if ( m == 2 && q*r_min-p == 0 ) {
+        for(var r=r_min+1; r<=r_max; r++ ){
+            if ( (r_min*r) % (r - r_min) == 0 ) {
+                count = count +1;
             }
         }
-        r = r + 1;
+    } else {
+        for( var r=r_min; r<=r_max; r++ ) {
+            var next_q = q*r-p;
+            if (next_q > 0) {
+                var next_p = p*r;
+                // m=2(残り2個)の場合は、q/p-1/r=(q*r-p)/(p*r)の分母が分子で割り切れるかどうか
+                // 判定すればよい。
+                if (m == 2) {
+                    if ( next_p % next_q == 0 ){
+                        count = count + 1;
+                    }
+                } else {
+                    var e = euclidean(next_q, next_p);
+                    next_q = Math.trunc(next_q/e);
+                    next_p = Math.trunc(next_p/e);
+                    count = count + count_fractions(next_q, next_p, m-1, r);
+                }
+            }
+        }
     }
 
     return count;
