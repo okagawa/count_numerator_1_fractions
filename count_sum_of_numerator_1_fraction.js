@@ -31,13 +31,13 @@ function euclidean(m,n) {
 // q/pをm個の分数で合計する組み合わせの数を数える関数
 function count_fractions(q, p, m, prev_r) {
     var count = 0;
-    if (m == 1) {
-        if(q == 1){
-            return 1;
-        }else{
-            return 0;
-        }
-    }
+//    if (m == 1) {
+//        if(q == 1){
+//            return 1;
+//        }else{
+//            return 0;
+//        }
+//    }
 
     // q/pを超えない1/rを満足するrの最小値を求める。ただし直前のr以上の値である必要がある
     var r_min = Math.max(Math.ceil(p/q), prev_r);
@@ -47,8 +47,8 @@ function count_fractions(q, p, m, prev_r) {
     var r = r_min
     while ( r <= r_max ){
         var next_q = q*r-p;
-        var next_p = p*r;
         if (next_q > 0) {
+            var next_p = p*r;
             // m=2(残り2個)の場合は、q/p-1/r=(q*r-p)/(p*r)の分母が分子で割り切れるかどうか
             // 判定すればよい。
             if (m == 2) {
