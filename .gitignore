@@ -27,3 +27,5 @@ obj/Debug/net7.0/count_numerator_1_fractions.GlobalUsings.g.cs
 obj/Debug/net7.0/count_numerator_1_fractions.pdb
 obj/Debug/net7.0/ref/count_numerator_1_fractions.dll
 obj/Debug/net7.0/refint/count_numerator_1_fractions.dll
+bin/Debug/net7.0/count_numerator_1_fractions.exe
+obj/Debug/net7.0/apphost.exe

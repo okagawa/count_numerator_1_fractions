@@ -21,11 +21,10 @@ function euclidean(m,n) {
     if ( n > m ) {
         [m,n] = [n,m];
     }
-    if ( n == 0 ) {
-        return m;
-    } else {
-        return euclidean(n, m % n);
+    while ( n != 0 ){
+        [m,n] = [n, m % n];
     }
+    return m;
 }
 
 // q/pをm個の分数で合計する組み合わせの数を数える関数
