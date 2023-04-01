@@ -1,7 +1,7 @@
 # 分子が1の分数をn個合計して1になる組み合わせの数を数える。
 import math
 
-def euclidean(m, n):
+def euclidean(m:int, n:int):
     if n > m:
         (m,n) = (n,m)
     while n != 0:
@@ -10,8 +10,8 @@ def euclidean(m, n):
 
 
 # q/pをm個の分数で合計する組み合わせの数を数える関数
-def count_fractions(q, p, n, dic):
-    def count_fractions_sub(q, p, m, prev_r, hist, dic):
+def count_fractions(q:int, p:int, n:int, dic):
+    def count_fractions_sub(q:int, p:int, m:int, prev_r:int, hist, dic):
         count = 0
         if m == 1:
 #            if q == 1:
@@ -30,6 +30,10 @@ def count_fractions(q, p, n, dic):
             # m=2(残り2個)かつ、q/p=1/r_minの場合は特別ケース。
             # 1/r_min - 1/r の分母が分子で割り切れるかどうかで判別すればよい。
             if  m == 2 and q == 1 and p == r_min:
+                if m == 2 and prev_r >= 3263442:
+                    print(hist)
+                    print(f'q={q},p={p}')
+                    print(f'prev_r={prev_r},r_min={r_min},r_max={r_max}')
                 if p==r_min and p in dic:
                     count = count + dic[p]
                     # print(f'q/p={q}/{p}, dic[{p}]={dic[p]}')
@@ -46,6 +50,11 @@ def count_fractions(q, p, n, dic):
                 # 1/r*(m-1) >= q/p - 1/r
                 for r in range(r_min, r_max+1):
                     next_q, next_p = q*r-p, p*r
+                    if m == 3 and r >= 3263442:
+                        print(hist)
+                        print(f'q={q},p={p}')
+                        print(f'r={r},r_min={r_min},r_max={r_max}')
+                        print(f'next_q={next_q},next_p={next_p}')
                     if next_q > 0:
                         if m == 2: # q != 1
                             c = 0
@@ -69,7 +78,7 @@ def count_fractions(q, p, n, dic):
     return count, dic
 
 if __name__=='__main__':
-    n_max = 7
+    n_max = 8
     dic = dict()
     for n in range(2, n_max+1):
         c, dic = count_fractions(1, 1, n, dic)
