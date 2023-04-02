@@ -30,31 +30,25 @@ def count_fractions(q:int, p:int, n:int, dic):
             # m=2(残り2個)かつ、q/p=1/r_minの場合は特別ケース。
             # 1/r_min - 1/r の分母が分子で割り切れるかどうかで判別すればよい。
             if  m == 2 and q == 1 and p == r_min:
-                if m == 2 and prev_r >= 3263442:
-                    print(hist)
-                    print(f'q={q},p={p}')
-                    print(f'prev_r={prev_r},r_min={r_min},r_max={r_max}')
                 if p==r_min and p in dic:
                     count = count + dic[p]
                     # print(f'q/p={q}/{p}, dic[{p}]={dic[p]}')
                 else:
-                    c = 0
-                    for r in range(r_min+1, r_max+1):
-                        if (r_min * r) % (r - r_min) == 0:
-                            c = c +1
-                    dic[p] = c
+                    # c = 0
+                    # for r in range(r_min+1, r_max+1):
+                    #     if (r_min * r) % (r - r_min) == 0:
+                    #         c = c +1
+                    c2 = (calc_num_of_divisors(r_min)+1)/2
+                    # if c != c2:
+                    #     print(f'{r_min=},{r_max=},{c},{c2}')
+                    dic[p] = int(c2)
                     # print(f'dic[{p}]={c}')
-                    count = count + c
+                    count = count + c2
             else:
                 # q/pから1/rを引いた残りが1/r*(m-1)より大きいと、rが大きすぎるのでNG
                 # 1/r*(m-1) >= q/p - 1/r
                 for r in range(r_min, r_max+1):
                     next_q, next_p = q*r-p, p*r
-                    if m == 3 and r >= 3263442:
-                        print(hist)
-                        print(f'q={q},p={p}')
-                        print(f'r={r},r_min={r_min},r_max={r_max}')
-                        print(f'next_q={next_q},next_p={next_p}')
                     if next_q > 0:
                         if m == 2: # q != 1
                             c = 0
@@ -77,8 +71,42 @@ def count_fractions(q:int, p:int, n:int, dic):
     count, _, dic = count_fractions_sub(q, p, n, 1, [], dic)
     return count, dic
 
+prime_list  = [2]
+
+def gen_prime_list(n):
+    sq = int(math.sqrt(n))
+    for p_candidate in range(prime_list[-1], sq+1):
+        flag = False
+        for p in prime_list:
+            if p_candidate % p == 0:
+                flag = True
+                break
+        if flag == False:
+            prime_list.append(p_candidate)
+            if len(prime_list) % 1000 == 0:
+                print(p_candidate)
+
+def factorization(n):
+    gen_prime_list(n)
+    factor_list = {}
+    for p in prime_list:
+        while (n % p) == 0:
+            n = int(n / p)
+            factor_list[p] = factor_list[p] + 1 if p in factor_list else 1
+    if n > 1:
+        factor_list[n]=1
+    return factor_list
+
+def calc_num_of_divisors(n):
+    '''n^2の約数の数を計算する'''
+    factor_list = factorization(n)
+    c = 1
+    for _,v in factor_list.items():
+        c = c * (v*2+1)  ## 2乗なので指数を2倍する
+    return c
+
 if __name__=='__main__':
-    n_max = 8
+    n_max = 7
     dic = dict()
     for n in range(2, n_max+1):
         c, dic = count_fractions(1, 1, n, dic)

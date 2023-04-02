@@ -1,6 +1,8 @@
 "use strict";
 // 分子が1の分数をn個合計して1になる組み合わせの数を数える。
 var n_max=7;
+var prime_list = [2];
+
 
 for (var n = 2; n <= n_max; n++) {
     var objDate0 = new Date();
@@ -52,15 +54,24 @@ function count_fractions(q, p, m, prev_r, cache) {
         if ( cache.has(p) == true ) {
             count = count + cache.get(p);
         } else {
-            var c = 0;
-            for(var dr=1; dr<=(r_max-r_min); dr++ ) {
-                var r_min2 = r_min % dr;
-                if ( r_min2 == 0 || ((r_min2*r_min2) % dr) == 0 ) {
-                    c = c+1;
-                }
-            }
-            cache.set(p, c);
-            count = count + c;
+//            var c = 0;
+//            for(var dr=1; dr<=(r_max-r_min); dr++ ) {
+//                var r_min2 = r_min % dr;
+//                if ( r_min2 == 0 || ((r_min2*r_min2) % dr) == 0 ) {
+//                    c = c+1;
+//                }
+//            }
+            var c2 = Math.trunc((calc_num_of_divisors(r_min)+1)/2);
+//            if ( c != c2 ){
+//                console.log('r_min='+r_min+',c='+c+',c2='+c2);
+//            }
+//            for(var r=r_min+1; r<=r_max; r++ ){
+//                if ( (r_min*r) % (r - r_min) == 0 ) {
+//                    c = c +1;
+//                }
+//            }
+            cache.set(p, c2);
+            count = count + c2;
         }
     } else {
         for( var r=r_min; r<=r_max; r++ ) {
@@ -86,6 +97,56 @@ function count_fractions(q, p, m, prev_r, cache) {
     }
 
     return [count, cache];
+}
+
+function gen_prime_list(n) {
+    var sq = Math.trunc(Math.sqrt(n));
+    for( var pc = prime_list.at(-1); pc <= sq+1; pc++) {
+        var flag = false;
+        for(const p of prime_list) {
+            if( pc % p == 0 ) {
+                flag = true;
+                break;
+            }
+        }
+        if( flag == false ) {
+            prime_list.push(pc);
+            if( prime_list.length % 10000 == 0) {
+                console.log(pc);
+            }
+        }
+    }
+}
+
+function factorization(n) {
+    gen_prime_list(n);
+
+    var factor_list = new Map();
+    for (const p of prime_list) {
+        while( n % p == 0 ) {
+            n = Math.trunc(n / p);
+            if( factor_list.has(p) == true) {
+                factor_list.set(p, factor_list.get(p)+1);
+            } else {
+                factor_list.set(p, 1);
+            }
+        }
+    }
+    if( n > 1 ) {
+        factor_list.set(n, 1);
+    }
+    return factor_list;
+}
+
+function calc_num_of_divisors(n) {
+    // n^2の約数の数を計算する
+    var factor_list = factorization(n);
+    var c = 1;
+    for(const v of factor_list.values() ) {
+        // console.log('k='+k+',v='+v)
+        c = c * (v*2+1);
+    }
+    return c;
 }
 
 
